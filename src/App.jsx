@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import days from "./data";
 const colors = [
   "papayawhip",
@@ -17,12 +17,43 @@ function App() {
   const [today, setToday] = useState({});
   const [vibe, setVibe] = useState("");
 
+  useEffect(()=>{
+    console.log("vibe: ", vibe)
+  }, [vibe])
+  // function getData(){
+  //   console.log("I am getting data");
+  // }
+
+
+  // Because we are updating state in this useEffect if we we do not pass a dependency the webpage will re-render infinitely
+  // Since we only want to update number ONCE, we will pass an empty dependency array 
+  useEffect(()=>{
+    setNumber(Math.random())
+  }, [])
+
+  // we need this useEffect to run every time the index changes, therefore we passed the state variable index as a dependency
+  useEffect(()=>{
+    console.log(index)
+    setToday(days[index])
+  }, [index])
+
+  // because this useEffect does not have a dependency, it will run every time the page rerenders
+  // this useEffect isn't handling any state changes and is not dependent on any other variables, therefore does not have dependencies 
+//   useEffect(()=>{
+//     getData()
+// })
+
   function handleOnChange(event) {
     setVibe(event.target.value);
+    // console.log(vibe)
   }
 
   function updateIndex() {
     setIndex((index + 1) % days.length);
+    // 1 % 4 === 1
+    // 2 % 4 === 2
+    // 3 % 4 === 3
+    // 4 % 4 === 0
   }
 
   return (
