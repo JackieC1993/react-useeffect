@@ -24,7 +24,23 @@ function App() {
   //   console.log("I am getting data");
   // }
 
+  // when your dependency is an object, you should track a specific value changing as a dependency because whenever objects are updated in react, it is Always a new object.
+useEffect(() =>{
+  setColor(colors[index])
+}, [today.month])
 
+function getFeaturedDog(){
+  fetch("https://dog.ceo/api/breeds/image/random").then((response)=> response.json()).then((data)=>{
+    // console.log(data)
+    setDog(data)
+  })
+  .catch((error) => {
+ console.log("error fetching dog");
+  });
+}
+useEffect(() => {
+  getFeaturedDog();
+}, [])
   // Because we are updating state in this useEffect if we we do not pass a dependency the webpage will re-render infinitely
   // Since we only want to update number ONCE, we will pass an empty dependency array 
   useEffect(()=>{
@@ -78,7 +94,7 @@ function App() {
           <h5>{vibe}</h5>
         </div>
         <div className="dog">
-          <button>Change dog</button>
+          <button onClick={getFeaturedDog}>Change dog</button>
           <h2>Featured dog:</h2>
           <img src={dog.message} alt="Featured Dog" />
         </div>
